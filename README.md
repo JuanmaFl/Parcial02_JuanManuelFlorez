@@ -1,11 +1,30 @@
 # **Microservicio Factorial**
 
-## **Descripcion**
+## **1.Descripcion**
 Este microservicio recibe un numero entero por la URL y devuelve una respuesta en formato **JSON** con:
 
 - El numero recibido  
 - Su factorial  
-- Una etiqueta `"par"` o `"impar"` segun el resultado del factorial  
+- Una etiqueta `"par"` o `"impar"` segun el resultado del factorial
+  
+## **2.Pregunta de an√°lisis**
+
+Si el microservicio tuviera que comunicarse con otro servicio que almacena el historial de calculos en una base de datos externa, modificaria el dise√±o de la siguiente manera:
+
+- **Separacion de responsabilidades:**  
+  Crearia **dos microservicios independientes**:
+  1. **Factorial:** Calcula el factorial y genera la respuesta JSON.  
+  2. **Historial:** Recibe y guarda los datos en la base de datos.  
+
+- **Comunicacion entre servicios:**  
+  El microservicio de factorial enviaria una **peticion HTTP (POST)** al servicio de historial despues de realizar el calculo, enviando los datos del numero, factorial y etiqueta.  
+  Esto lo podria implementar usando la libreria `requests`.
+
+- **Ventajas del dise√±o:**  
+  - Se mantiene un **acoplamiento d√©bil**, permitiendo modificar o escalar los servicios de forma independiente.  
+  - Permite **persistir y consultar** el historial sin afectar el rendimiento del servicio principal.  
+  - Mejora la **escalabilidad y mantenimiento** del sistema.
+
 
 ### **Ejemplo de uso**
 ```
@@ -77,26 +96,5 @@ docker run -p 8000:8000 microservicio-factorial
 http://127.0.0.1:8000/factorial/4
 ```
 
----
 
-
----
-
-## **Pregunta de an·lisis**
-
-Si el microservicio tuviera que comunicarse con otro servicio que almacena el historial de calculos en una base de datos externa, modificaria el diseÒo de la siguiente manera:
-
-- **Separacion de responsabilidades:**  
-  Crearia **dos microservicios independientes**:
-  1. **Service A (Factorial):** Calcula el factorial y genera la respuesta JSON.  
-  2. **Service B (Historial):** Recibe y guarda los datos en la base de datos.  
-
-- **Comunicacion entre servicios:**  
-  El microservicio de factorial enviaria una **peticion HTTP (POST)** al servicio de historial despues de realizar el calculo, enviando los datos del numero, factorial y etiqueta.  
-  Esto lo podria implementar usando la libreria `requests`.
-
-- **Ventajas del diseÒo:**  
-  - Se mantiene un **acoplamiento dÈbil**, permitiendo modificar o escalar los servicios de forma independiente.  
-  - Permite **persistir y consultar** el historial sin afectar el rendimiento del servicio principal.  
-  - Mejora la **escalabilidad y mantenimiento** del sistema.
 
